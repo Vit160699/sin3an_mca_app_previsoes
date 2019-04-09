@@ -22,4 +22,8 @@ public class PrevisaoTempoService {
 	public void salvar(PrevisaoTempo previsao) {
 		repo.save(previsao);
 	}
+	
+	public void excluir(PrevisaoTempo previsao) {
+		repo.delete(previsao);
+	}
 }

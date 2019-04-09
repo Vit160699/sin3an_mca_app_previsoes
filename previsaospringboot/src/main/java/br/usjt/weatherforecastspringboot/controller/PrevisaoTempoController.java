@@ -23,8 +23,6 @@ public class PrevisaoTempoController {
 		List<PrevisaoTempo> previsoes = service.listarPrevisoes();
 		mv.addObject("previsoes", previsoes);
 		mv.addObject("previsao", new PrevisaoTempo());
-//		Desta forma não funcionou para mim, mas no LoginController sim
-//		mv.addObject(new PrevisaoTempo());
 		return mv;
 	}
 	

@@ -2,37 +2,45 @@ package br.usjt.weatherforecastspringboot.model;
 
 import java.io.Serializable;
 
-import javax.persistence.FetchType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
-public class Dia implements Serializable {
+@Entity
+public class Cidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String nome;
+	private String latitude;
+	private String longitude;
 
-	@OneToOne(mappedBy = "dia", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy="cidade")
 	private PrevisaoTempo previsao;
-
-	public Dia() {
+	
+	public Cidade() {
 	}
 
-	public Dia(String nome) {
+	public Cidade(Long id, String nome, String latitude, String longitude) {
+		super();
+		this.id = id;
 		this.nome = nome;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
-	public PrevisaoTempo getPrevisao() {
-		return previsao;
+	public Long getId() {
+		return id;
 	}
 
-	public void setPrevisao(PrevisaoTempo previsao) {
-		this.previsao = previsao;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNome() {
@@ -43,12 +51,20 @@ public class Dia implements Serializable {
 		this.nome = nome;
 	}
 
-	public Long getId() {
-		return id;
+	public String getLatitude() {
+		return latitude;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 
 	@Override
@@ -67,13 +83,18 @@ public class Dia implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Dia other = (Dia) obj;
+		Cidade other = (Cidade) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Cidade [id=" + id + ", nome=" + nome + ", latitude=" + latitude + ", longitude=" + longitude + "]";
 	}
 
 }

@@ -2,10 +2,13 @@ package br.usjt.weatherforecastspringboot.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -16,15 +19,41 @@ public class PrevisaoTempo implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@OneToOne(mappedBy = "id_dia", optional = false)
+
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(unique=true, name="id_dia")
 	private Dia dia;
+	
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="id_cidade")
+	private Cidade cidade;
+	
 	private Integer tempMinima;
 	private Integer tempMaxima;
 	private Integer umidadeRelativaAr;
 	private String descricao;
 	private String dataHora;
-	private String latitude;
-	private String longitude;
+	
+	public PrevisaoTempo(Dia dia) {
+		this.dia = dia;
+		this.dia.setPrevisao(this);
+	}
+
+	public PrevisaoTempo() {
+	}
+	
+	public PrevisaoTempo(Dia dia, Cidade cidade, Integer tempMinima, Integer tempMaxima, Integer umidadeRelativaAr, String descricao,
+			String dataHora) {
+		super();
+		this.tempMinima = tempMinima;
+		this.tempMaxima = tempMaxima;
+		this.umidadeRelativaAr = umidadeRelativaAr;
+		this.descricao = descricao;
+		this.dataHora = dataHora;
+		this.dia = dia;
+		this.dia.setPrevisao(this);
+		this.cidade = cidade;
+	}
 
 	public Long getId() {
 		return id;
@@ -80,22 +109,6 @@ public class PrevisaoTempo implements Serializable {
 
 	public void setDataHora(String dataHora) {
 		this.dataHora = dataHora;
-	}
-
-	public String getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
-	}
-
-	public String getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
 	}
 
 	@Override
